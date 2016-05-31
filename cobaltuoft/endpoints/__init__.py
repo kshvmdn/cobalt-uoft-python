@@ -14,7 +14,7 @@ class Endpoints:
         return get(url=url, params=params)
 
     @staticmethod
-    def _process_filter(queries, map):
+    def _process_filter(queries, map=None):
         # [[(), (), ()], [(), (), ()], [()]])
 
         if (type(queries) == str):
@@ -24,7 +24,7 @@ class Endpoints:
         for filter in queries:
             o = []
             for k, v in filter:
-                if k.lower() not in map:
+                if map and k.lower() not in map:
                     continue
                 o.append('%s:%s' % (k, v))
             a.append(' OR '.join(o))
