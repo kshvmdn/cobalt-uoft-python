@@ -3,7 +3,13 @@ import json
 from bs4 import BeautifulSoup
 
 BASE_URL = 'https://cobalt.qas.im/documentation/%s/filter'
-ACTIVE_APIS = ['buildings', 'courses']
+ACTIVE_APIS = [
+    'athletics',
+    'buildings',
+    'courses',
+    'food',
+    'textbooks'
+]
 
 
 def scrape(api):
@@ -11,8 +17,18 @@ def scrape(api):
     resp = requests.get(host)
     soup = BeautifulSoup(resp.text, 'html.parser')
 
-    return [tr.find('td').text
-            for tr in soup.find('table').find_all('tr')[1:]]
+    filters = []
+
+    if not soup.find('table'):
+        return filters
+
+    for tr in soup.find('table').find_all('tr'):
+        if tr.find('th') or not tr.find('td'):
+            continue
+
+        filters.append(tr.find('td').text)
+
+    return filters
 
 
 def main():
