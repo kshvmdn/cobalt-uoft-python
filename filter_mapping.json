@@ -1,0 +1,36 @@
+{
+  "courses": [
+    "code",
+    "name",
+    "description",
+    "department",
+    "division",
+    "prerequisite",
+    "exclusion",
+    "level",
+    "breadth",
+    "campus",
+    "term",
+    "meeting_code",
+    "instructor",
+    "day",
+    "start",
+    "end",
+    "duration",
+    "location",
+    "size",
+    "enrolment"
+  ],
+  "buildings": [
+    "code",
+    "name",
+    "short_name",
+    "campus",
+    "street",
+    "city",
+    "country",
+    "postal",
+    "lat",
+    "lng"
+  ]
+}
