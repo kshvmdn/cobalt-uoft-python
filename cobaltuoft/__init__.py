@@ -2,6 +2,7 @@ import requests
 import json
 
 from .endpoints import Endpoints
+from .utils.scrape_filters import main as scrape_filters 
 
 
 class Cobalt:
@@ -17,8 +18,7 @@ class Cobalt:
 
         self.headers['Authorization'] = api_key
 
-        with open('./filter_mapping.json', 'r') as f:
-            self.filter_map = json.loads(f.read())
+        self.filter_map = scrape_filters() 
 
     def _get(self, url, params=None):
         return requests.get(url=url, params=params, headers=self.headers)
@@ -28,7 +28,7 @@ class Cobalt:
         r = self._get(self.host, params=payload)
         return r.reason == 'Not Found' and r.status_code == 404
 
-    def run(self, api, endpoint=None, params=None):
+    def _run(self, api, endpoint=None, params=None):
         res = Endpoints.run(api=api,
                             endpoint=endpoint,
                             params=params,
@@ -37,7 +37,7 @@ class Cobalt:
         return res.json()
 
     def courses(self, endpoint=None, params=None):
-        return self.run(api='courses', endpoint=endpoint, params=params)
+        return self._run(api='courses', endpoint=endpoint, params=params)
 
     def buildings(self, endpoint=None, params=None):
-        return self.run(api='buildings', endpoint=endpoint, params=params)
+        return self._run(api='buildings', endpoint=endpoint, params=params)
