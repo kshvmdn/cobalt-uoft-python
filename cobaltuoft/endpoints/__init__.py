@@ -42,7 +42,7 @@ class Endpoints:
     def _parse_url(api, endpoint, params):
         url = '%s/%s/%s' % (Endpoints.host, api, endpoint)
 
-        if endpoint == '' and ('date' in params or 'id' in params):
+        if params and endpoint == '' and ('date' in params or 'id' in params):
             url += params['id'] if 'id' in params else params['date']
 
         return url
