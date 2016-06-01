@@ -15,8 +15,6 @@ class Endpoints:
 
     @staticmethod
     def _process_filter(queries, map=None):
-        # [[(), (), ()], [(), (), ()], [()]])
-
         if (type(queries) == str):
             return queries
 
