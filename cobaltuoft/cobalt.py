@@ -7,22 +7,21 @@ class Cobalt:
         self.host = 'http://cobalt.qas.im/api/1.0'
 
         self.headers = {
-            'Referer': 'Cobalt-UofT-Python'
+            'Referer': 'Cobalt-UofT-Python',
+            'Authorization': api_key
         }
 
-        if not api_key or not self._is_valid_key(api_key):
+        if not api_key or not self._is_valid_key():
             raise ValueError('Expected valid API key.')
-
-        self.headers['Authorization'] = api_key
 
         self.filter_map = scrape_filters()
 
-    def _get(self, url, params=None):
+    def _get(self, url, params=None, headers=None):
+        headers = headers or self.headers
         return get(url=url, params=params, headers=self.headers)
 
-    def _is_valid_key(self, key):
-        payload = {'key': key}
-        r = self._get(self.host, params=payload)
+    def _is_valid_key(self):
+        r = self._get(self.host)
         return r.reason == 'Not Found' and r.status_code == 404
 
     def _run(self, api, endpoint=None, params=None):
