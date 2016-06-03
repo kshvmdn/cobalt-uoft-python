@@ -46,6 +46,11 @@ class Datasets:
 
     @staticmethod
     def run(tag='latest'):
+        if tag not in Datasets._get_tags():
+            raise ValueError('Unexpected tag value. Refer to this: ' +
+                             'https://api.github.com/repos/cobalt-uoft/datasets/tags ' +
+                             'for a list of valid tags.')
+
         if not tag or tag not in Datasets._get_tags() or tag == 'latest':
             tag = 'master'
 

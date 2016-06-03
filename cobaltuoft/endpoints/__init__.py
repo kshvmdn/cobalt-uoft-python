@@ -1,6 +1,3 @@
-from collections import OrderedDict
-
-
 class Endpoints:
     host = 'http://cobalt.qas.im/api/1.0'
 
@@ -29,41 +26,54 @@ class Endpoints:
         return ' AND '.join(a)
 
     @staticmethod
-    def _parse_endpoint(endpoint):
-        if not endpoint:
-            endpoint = ''
+    def _parse_endpoint(endpoint='list'):
+        if not endpoint or endpoint in ('list', 'show'):
+            return ''
 
-        endpoint = endpoint.lower().strip().replace('/', '')
         return endpoint if endpoint in ('search', 'filter') else ''
 
     @staticmethod
     def _parse_url(api, endpoint, params):
         url = '%s/%s/%s' % (Endpoints.host, api, endpoint)
 
-        if params and endpoint == '' and ('date' in params or 'id' in params):
+        if not params:
+            return url
+
+        keys = map(lambda p: p.lower(), params.keys())
+
+        if endpoint == '' and any(k in ('date', 'id') for k in keys):
             url += params['id'] if 'id' in params else params['date']
 
         return url
 
     @staticmethod
     def _parse_params(endpoint, params, map=None):
+
         if not params:
             return None
 
-        parsed_params = OrderedDict()
+        keys = map(lambda p: p.lower(), params.keys())
+
+        if endpoint == '' or any(k in ('date', 'id') for k in keys):
+            return None
+
+        if endpoint in ('filter', 'search') and 'q' not in keys:
+            raise ValueError('Expected query parameter with %s.' % endpoint)
+
+        parsed_params = {}
 
         for param, value in params.items():
             param = param.lower()
 
-            if param in ('date', 'id'):
-                return None
-
             if param not in ('sort', 'limit', 'skip', 'q'):
                 continue
 
-            if map and endpoint == 'filter' and param == 'q':
-                value = Endpoints._process_filter(value, map)
+            if endpoint == 'filter' and param == 'q':
+                if not map:
+                    continue
+
+                value = Endpoints._process_filter(queries=value, map=map)
 
             parsed_params[param] = value
 
-        return dict(parsed_params)
+        return parsed_params
