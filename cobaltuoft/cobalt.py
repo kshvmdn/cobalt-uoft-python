@@ -18,7 +18,7 @@ class Cobalt:
 
     def _get(self, url, params=None, headers=None):
         headers = headers or self.headers
-        return get(url=url, params=params, headers=self.headers)
+        return get(url=url, params=params, headers=headers)
 
     def _is_valid_key(self):
         r = self._get(self.host)
