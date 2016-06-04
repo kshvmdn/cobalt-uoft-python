@@ -7,11 +7,10 @@ from os.path import exists, isfile
 
 from .scrapers import *
 
-s = requests.session()
-
 
 def get(url, params=None, headers=None):
-    return s.get(url=url, params=params, headers=headers)
+    with requests.Session() as s:
+        return s.get(url=url, params=params, headers=headers)
 
 
 def verify_dir_exists(directory):
