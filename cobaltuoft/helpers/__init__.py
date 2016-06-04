@@ -1,7 +1,7 @@
-import requests
 import json
-import os.path
+import requests
 
+from collections import OrderedDict
 from datetime import datetime
 from os.path import exists, isfile
 
@@ -11,6 +11,23 @@ from .scrapers import *
 def get(url, params=None, headers=None):
     with requests.Session() as s:
         return s.get(url=url, params=params, headers=headers)
+
+
+def deep_convert_dict(obj):
+    converted = obj
+
+    if isinstance(obj, OrderedDict):
+        converted = dict(obj)
+    elif isinstance(obj, list):
+        converted = [deep_convert_dict(x) for x in obj]
+
+    try:
+        for k, v in converted.items():
+            converted[k] = deep_convert_dict(v)
+    except AttributeError:
+        pass
+
+    return converted
 
 
 def verify_dir_exists(directory):
