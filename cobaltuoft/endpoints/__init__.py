@@ -69,9 +69,6 @@ class Endpoints:
                 continue
 
             if endpoint == 'filter' and param == 'q':
-                if not map:
-                    continue
-
                 value = Endpoints._process_filter(queries=value, map=map)
 
             parsed_params[param] = value
