@@ -10,7 +10,7 @@ from .scrapers import *
 
 def get(url, params=None, headers=None):
     with requests.Session() as s:
-        return s.get(url=url, params=params, headers=headers)
+        return s.get(url=url, params=params, headers=headers, timeout=10)
 
 
 def deep_convert_dict(obj):
