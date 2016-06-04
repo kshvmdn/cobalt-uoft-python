@@ -28,7 +28,7 @@ class Cobalt:
         res = Endpoints.run(api=api,
                             endpoint=endpoint,
                             params=params,
-                            map=self.filter_keys[api],
+                            filter_keys=self.filter_keys[api],
                             get=self._get)
         return res.json()
 
