@@ -54,11 +54,11 @@ class Endpoints:
 
         keys = map(lambda p: p.lower(), params.keys())
 
-        if endpoint == '' or any(k in ('date', 'id') for k in keys):
+        if endpoint == '' and any(k in ('date', 'id') for k in keys):
             return None
 
         if endpoint in ('filter', 'search') and 'q' not in keys:
-            raise ValueError('Expected query parameter with %s.' % endpoint)
+            raise ValueError('Expected a query parameter with this endpoint.')
 
         parsed_params = {}
 
