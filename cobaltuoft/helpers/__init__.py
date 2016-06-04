@@ -1,14 +1,17 @@
 import requests
 import json
 import os.path
+
 from datetime import datetime
 from os.path import exists, isfile
 
 from .scrapers import *
 
+s = requests.session()
+
 
 def get(url, params=None, headers=None):
-    return requests.get(url=url, params=params, headers=headers)
+    return s.get(url=url, params=params, headers=headers)
 
 
 def verify_dir_exists(directory):
@@ -62,7 +65,7 @@ def get_filter_keys():
             return doc['filters']
 
     doc = {
-        'filters': scrape_filters(get_active_apis()),
+        'filters': scrape_filter_keys(get_active_apis()),
         'meta': {
             'date': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         }
