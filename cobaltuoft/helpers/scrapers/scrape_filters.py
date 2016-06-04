@@ -1,15 +1,9 @@
 import requests
 import json
+
 from bs4 import BeautifulSoup
 
 BASE_URL = 'https://cobalt.qas.im/documentation/%s/filter'
-ACTIVE_APIS = [
-    'athletics',
-    'buildings',
-    'courses',
-    'food',
-    'textbooks'
-]
 
 
 def scrape(api):
@@ -31,9 +25,9 @@ def scrape(api):
     return filters
 
 
-def main():
+def main(active_apis):
     filters = {}
-    for api in ACTIVE_APIS:
+    for api in active_apis:
         filters[api] = scrape(api)
     return filters
 
