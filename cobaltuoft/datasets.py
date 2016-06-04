@@ -6,13 +6,12 @@ import json
 
 
 class Datasets:
-    API_URL = 'https://api.github.com/repos/cobalt-uoft/datasets'
+    GH_API = 'https://api.github.com'
+    API_URL = '%s/repos/cobalt-uoft/datasets' % GH_API
 
     @staticmethod
     def _get(url, params=None):
-        return get(url=url, params=params, headers={
-            'Referer': 'https://github.com/'
-        })
+        return get(url=url, params=params, headers={'Referer': GH_API})
 
     @staticmethod
     def _get_tags():

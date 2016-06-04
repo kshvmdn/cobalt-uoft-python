@@ -1,5 +1,5 @@
 from .endpoints import Endpoints
-from .helpers import get, scrape_filters
+from .helpers import get, get_filter_keys
 
 
 class Cobalt:
@@ -7,14 +7,14 @@ class Cobalt:
         self.host = 'http://cobalt.qas.im/api/1.0'
 
         self.headers = {
-            'Referer': 'Cobalt-UofT-Python',
+            'Referer': 'https://pypi.python.org/pypi/cobaltuoft',
             'Authorization': api_key
         }
 
         if not api_key or not self._is_valid_key():
             raise ValueError('Expected valid API key.')
 
-        self.filter_map = scrape_filters()
+        self.filter_keys = get_filter_keys()
 
     def _get(self, url, params=None, headers=None):
         headers = headers or self.headers
@@ -28,7 +28,7 @@ class Cobalt:
         res = Endpoints.run(api=api,
                             endpoint=endpoint,
                             params=params,
-                            map=self.filter_map[api],
+                            map=self.filter_keys[api],
                             get=self._get)
         return res.json()
 
