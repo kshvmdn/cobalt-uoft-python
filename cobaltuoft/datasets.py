@@ -1,8 +1,9 @@
-from collections import OrderedDict
-from pprint import pprint
-from .helpers import get
-
 import json
+
+from collections import OrderedDict
+from os.path import splitext
+
+from .helpers import get, deep_convert_dict
 
 
 class Datasets:
@@ -11,7 +12,9 @@ class Datasets:
 
     @staticmethod
     def _get(url, params=None):
-        return get(url=url, params=params, headers={'Referer': GH_API})
+        return get(url=url, params=params, headers={
+            'Referer': Datasets.GH_API
+        })
 
     @staticmethod
     def _get_tags():
@@ -23,11 +26,14 @@ class Datasets:
         resp = Datasets._get(url='%s/contents' % Datasets.API_URL,
                              params={'ref': tag})
 
-        datasets = []
+        datasets = {}
 
         for file in resp.json():
             if '.json' in file['name']:
-                datasets.append((file['name'], file['download_url']))
+                datasets[splitext(file['name'])[0]] = {
+                    'name': file['name'],
+                    'url': file['download_url']
+                }
 
         return datasets
 
@@ -41,10 +47,12 @@ class Datasets:
             except e:
                 pass
 
-        return docs
+        return deep_convert_dict(docs)
 
     @staticmethod
-    def run(tag='latest'):
+    def run(tag='latest', datasets='*'):
+        tag = None if tag is None else tag.lower()
+
         if not tag or tag == 'latest':
             tag = 'master'
 
@@ -53,15 +61,28 @@ class Datasets:
                              'https://api.github.com/repos/cobalt-uoft/datasets/tags ' +
                              'for a list of valid tags.')
 
+        available_datasets = Datasets._get_available_datasets(tag)
+
+        if not datasets:
+            raise ValueError('Expected datasets value.')
+        elif datasets == '*':
+            datasets = available_datasets.keys()
+        elif type(datasets) != list:
+            datasets = [datasets]
+
+        datasets = [ds.lower() for ds in datasets]
+
         docs = {}
 
-        for dataset, url in Datasets._get_available_datasets(tag):
-            resp = Datasets._get(url=url)
+        for name, doc in available_datasets.items():
+            if name not in datasets:
+                continue
+
+            resp = Datasets._get(url=doc['url'])
 
             if resp.status_code != 200:
                 continue
 
-            docs[dataset.replace('.json', '')] = \
-                Datasets._parse_cobalt_json(resp.text)
+            docs[name] = Datasets._parse_cobalt_json(resp.text)
 
         return docs
