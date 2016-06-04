@@ -2,16 +2,16 @@ class Endpoints:
     host = 'http://cobalt.qas.im/api/1.0'
 
     @staticmethod
-    def run(api, get, endpoint=None, params=None, map=None):
+    def run(api, get, endpoint=None, params=None, filter_keys=None):
         endpoint = Endpoints._parse_endpoint(endpoint)
 
         url, params = Endpoints._parse_url(api, endpoint, params), \
-            Endpoints._parse_params(endpoint, params, map)
+            Endpoints._parse_params(endpoint, params, filter_keys)
 
         return get(url=url, params=params)
 
     @staticmethod
-    def _process_filter(queries, map=None):
+    def _process_filter(queries, filter_keys=None):
         if (type(queries) == str):
             return queries
 
@@ -19,7 +19,7 @@ class Endpoints:
         for filter in queries:
             o = []
             for k, v in filter:
-                if map and k.lower() not in map:
+                if filter_keys and k.lower() not in filter_keys:
                     continue
                 o.append('%s:%s' % (k, v))
             a.append(' OR '.join(o))
@@ -47,7 +47,7 @@ class Endpoints:
         return url
 
     @staticmethod
-    def _parse_params(endpoint, params, map=None):
+    def _parse_params(endpoint, params, filter_keys=None):
 
         if not params:
             return None
@@ -69,7 +69,8 @@ class Endpoints:
                 continue
 
             if endpoint == 'filter' and param == 'q':
-                value = Endpoints._process_filter(queries=value, map=map)
+                value = Endpoints._process_filter(queries=value,
+                                                  filter_keys=filter_keys)
 
             parsed_params[param] = value
 
