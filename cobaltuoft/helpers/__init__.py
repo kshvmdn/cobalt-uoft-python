@@ -4,9 +4,11 @@ import requests
 
 from collections import OrderedDict
 from datetime import datetime
-from os.path import exists, isfile
+from os.path import exists, isfile, realpath, dirname
 
 from .scrapers import *
+
+DATA_DIR = dirname(realpath(__file__)) + '/../data/'
 
 
 def get(url, params=None, headers=None, verbose=False):
@@ -56,11 +58,13 @@ def verify_dir_exists(directory):
 
 
 def get_active_apis():
-    if not verify_dir_exists('./data'):
+    file = DATA_DIR + '/active_apis.json'
+
+    if not verify_dir_exists(DATA_DIR):
         return []
 
-    if isfile('./data/active_apis.json'):
-        with open('./data/active_apis.json', 'r') as f:
+    if isfile(file):
+        with open(file, 'r') as f:
             doc = json.loads(f.read())
 
         write_date = datetime.strptime(doc['meta']['date'],
@@ -77,18 +81,20 @@ def get_active_apis():
         }
     }
 
-    with open('./data/active_apis.json', 'w') as f:
+    with open(file, 'w') as f:
         f.write(json.dumps(doc, indent=2))
 
     return doc['apis']
 
 
 def get_filter_keys():
-    if not verify_dir_exists('./data'):
+    file = DATA_DIR + '/filter_keys.json'
+
+    if not verify_dir_exists(DATA_DIR):
         return []
 
-    if isfile('./data/filter_keys.json'):
-        with open('./data/filter_keys.json', 'r') as f:
+    if isfile(file):
+        with open(file, 'r') as f:
             doc = json.loads(f.read())
 
         write_date = datetime.strptime(doc['meta']['date'],
@@ -105,7 +111,7 @@ def get_filter_keys():
         }
     }
 
-    with open('./data/filter_keys.json', 'w') as f:
+    with open(file, 'w') as f:
         f.write(json.dumps(doc, indent=2))
 
     return doc['filters']
