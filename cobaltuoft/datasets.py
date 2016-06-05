@@ -64,7 +64,7 @@ class Datasets:
         available_datasets = Datasets._get_available_datasets(tag)
 
         if not datasets:
-            raise ValueError('Expected datasets value.')
+            raise ValueError('Unexpected datasets value.')
         elif datasets == '*':
             datasets = available_datasets.keys()
         elif type(datasets) != list:
