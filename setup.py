@@ -2,9 +2,9 @@ from setuptools import setup
 
 setup(
     name='cobaltuoft',
-    version='0.0.5',
-    description='A wrapper for the Cobalt API.',
-    long_description='A Python library for interfacing with Cobalt (http://cobalt.qas.im), a University of Toronto Open Data API.',
+    version='0.0.6',
+    description='A Python Cobalt library.',
+    long_description='A Python wrapper for interfacing with [Cobalt], open data APIs and datasets for the University of Toronto.',
     url='https://github.com/kshvmdn/cobalt-uoft-python',
     author='Kashav Madan',
     author_email='kshvmdn@gmail.com',
@@ -16,17 +16,27 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
     ],
-    keywords=['cobalt', 'uoft', 'university of toronto', 'api wrapper', 'open data'],
+    keywords=[
+        'cobalt',
+        'uoft',
+        'university of toronto',
+        'api wrapper',
+        'open data'
+    ],
     packages=[
         'cobaltuoft',
-        'cobaltuoft.endpoints',
         'cobaltuoft.helpers',
         'cobaltuoft.helpers.scrapers'
     ],
     package_data={
         '': ['LICENSE']
     },
-    package_dir={'cobaltuoft': 'cobaltuoft'},
-    install_requires=['requests', 'bs4'],
+    package_dir={
+        'cobaltuoft': 'cobaltuoft'
+    },
+    install_requires=[
+        'bs4',
+        'requests'
+    ],
     include_package_data=True
 )
