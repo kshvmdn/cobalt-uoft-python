@@ -3,7 +3,8 @@ import json
 from collections import OrderedDict
 from os.path import splitext
 
-from .helpers import get, deep_convert_dict
+from .helpers import get, deep_convert_dict, validate_request_response
+from .response import Response
 
 
 class Datasets:
@@ -12,9 +13,14 @@ class Datasets:
 
     @staticmethod
     def _get(url, params=None):
-        return get(url=url, params=params, headers={
+        resp = get(url=url, params=params, headers={
             'Referer': Datasets.GH_API
         })
+
+        if not validate_request_response(resp):
+            return Datasets._prepare_response(resp, True)
+
+        return resp
 
     @staticmethod
     def _get_tags():
@@ -50,6 +56,25 @@ class Datasets:
         return deep_convert_dict(docs)
 
     @staticmethod
+    def _prepare_response(resp, is_error=False):
+        data = err = None
+
+        if is_error and resp is not None:
+            err = {}
+
+            try:
+                err.update({
+                    'status': resp.status_code,
+                    'message': resp.reason
+                })
+            except AttributeError:
+                err['message'] = str(resp)
+        elif resp:
+            data = resp
+
+        return Response(body=data, error=err)
+
+    @staticmethod
     def run(tag='latest', datasets='*'):
         tag = None if tag is None else tag.lower()
 
@@ -64,7 +89,7 @@ class Datasets:
         available_datasets = Datasets._get_available_datasets(tag)
 
         if not datasets:
-            raise ValueError('Unexpected datasets value.')
+            raise ValueError('Unexpected None `datasets` value.')
         elif datasets == '*':
             datasets = available_datasets.keys()
         elif type(datasets) != list:
@@ -80,9 +105,6 @@ class Datasets:
 
             resp = Datasets._get(url=doc['url'])
 
-            if resp.status_code != 200:
-                continue
-
             docs[name] = Datasets._parse_cobalt_json(resp.text)
 
-        return docs
+        return Datasets._prepare_response(docs)

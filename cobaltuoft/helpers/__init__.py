@@ -8,9 +8,26 @@ from os.path import exists, isfile
 from .scrapers import *
 
 
-def get(url, params=None, headers=None):
+def get(url, params=None, headers=None, verbose=False):
+    res = None
+
     with requests.Session() as s:
-        return s.get(url=url, params=params, headers=headers, timeout=10)
+        try:
+            res = s.get(url=url, params=params, headers=headers, timeout=2)
+        except requests.exceptions.RequestException as e:
+            res = e  # raise e instead?
+
+    return res
+
+
+def validate_request_response(resp):
+    return (resp and not
+            (isinstance(resp, requests.exceptions.RequestException) or
+             resp.status_code != 200))
+
+
+def put_value(dict, key, fallback):
+    return dict[key] if key in dict else fallback
 
 
 def deep_convert_dict(obj):

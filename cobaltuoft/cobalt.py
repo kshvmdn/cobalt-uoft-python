@@ -1,5 +1,8 @@
+import requests
+
 from .endpoints import Endpoints
-from .helpers import get, get_filter_keys
+from .helpers import get, get_filter_keys, validate_request_response
+from .response import Response
 
 
 class Cobalt:
@@ -25,12 +28,26 @@ class Cobalt:
         return r.reason == 'Not Found' and r.status_code == 404
 
     def _run(self, api, endpoint=None, params=None):
-        res = Endpoints.run(api=api,
-                            endpoint=endpoint,
-                            params=params,
-                            filter_keys=self.filter_keys[api],
-                            get=self._get)
-        return res.json()
+        resp = Endpoints.run(api=api,
+                             endpoint=endpoint,
+                             params=params,
+                             filter_keys=self.filter_keys[api],
+                             get=self._get)
+
+        data = url = err = None
+
+        if not validate_request_response(resp) and resp:
+            try:
+                err.update({
+                    'status': resp.status_code,
+                    'message': resp.reason
+                })
+            except AttributeError:
+                err['message'] = str(resp)
+        elif resp:
+            data, url = resp.json(), resp.url
+
+        return Response(body=data, url=url, error=err)
 
     def athletics(self, endpoint=None, params=None):
         return self._run(api='athletics', endpoint=endpoint, params=params)
