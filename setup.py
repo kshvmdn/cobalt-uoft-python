@@ -2,9 +2,9 @@ from setuptools import setup
 
 setup(
     name='cobaltuoft',
-    version='0.0.6',
+    version='0.1.0',
     description='A Python Cobalt library.',
-    long_description='A Python wrapper for interfacing with [Cobalt], open data APIs and datasets for the University of Toronto.',
+    long_description='A Python wrapper for interfacing with Cobalt, open data APIs and datasets for the University of Toronto.',
     url='https://github.com/kshvmdn/cobalt-uoft-python',
     author='Kashav Madan',
     author_email='kshvmdn@gmail.com',
