@@ -1,6 +1,6 @@
 import requests
 
-from .endpoints import Endpoints
+from .endpoint import Endpoint
 from .helpers import get, get_filter_keys, validate_request_response
 from .response import Response
 
@@ -8,8 +8,8 @@ from .response import Response
 class Cobalt:
     """A class for requesting data from the Cobalt web API."""
 
-    def __init__(self, api_key=None):
-        self.host = 'http://cobalt.qas.im/api/1.0'
+    def __init__(self, host='http://cobalt.qas.im/api/1.0', api_key=None):
+        self.host = host
 
         self.headers = {
             'Referer': 'https://pypi.python.org/pypi/cobaltuoft',
@@ -34,11 +34,11 @@ class Cobalt:
 
     def _run(self, api, endpoint=None, params=None):
         """Make a request to the API and parse the response body/error."""
-        resp = Endpoints.run(api=api,
-                             endpoint=endpoint,
-                             params=params,
-                             filter_keys=self.filter_keys[api],
-                             get=self._get)
+        resp = Endpoint.run(api=api,
+                            endpoint=endpoint,
+                            params=params,
+                            filter_keys=self.filter_keys[api],
+                            get=self._get)
 
         data = url = err = None
 
