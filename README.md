@@ -41,7 +41,7 @@ pip3 install cobaltuoft
     - [`search`](https://cobalt.qas.im/documentation/courses/search)
     - [`filter`](https://cobalt.qas.im/documentation/courses/filter)
 
-  - `params` – The URL parameters for this query. Accepts `None` or a `dict` of key-value pairs. Any of the following keys are accepted (read more about these parameters [here](https://cobalt.qas.im/documentation/courses/search)):
+  - `params` – The URL parameters for this query. Accepts a `dict` of key-value pairs. Any of the following keys are accepted (read more about these parameters [here](https://cobalt.qas.im/documentation/courses/search)):
 
     | Parameter   | Endpoints            | Description
     | ---         | ---                  | ---
