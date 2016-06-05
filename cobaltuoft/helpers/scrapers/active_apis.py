@@ -7,6 +7,8 @@ BASE_URL = 'https://cobalt.qas.im'
 
 
 def main():
+    """Scrape the active APIs from the Cobalt homepage."""
+
     resp = requests.get(BASE_URL)
     soup = BeautifulSoup(resp.text, 'html.parser')
 

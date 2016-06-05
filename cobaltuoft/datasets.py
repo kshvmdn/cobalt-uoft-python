@@ -8,6 +8,10 @@ from .response import Response
 
 
 class Datasets:
+    """A class for requesting data from the Cobalt datasets.
+
+    Datasets are hosted on GitHub @ http://github.com/cobalt-uoft/datasets."""
+
     GH_API = 'https://api.github.com'
     API_URL = '%s/repos/cobalt-uoft/datasets' % GH_API
 
@@ -24,13 +28,14 @@ class Datasets:
 
     @staticmethod
     def _get_tags():
+        """Get a list of the available tags from the datasets repository."""
         resp = Datasets._get(url='%s/tags' % Datasets.API_URL)
         return list(map(lambda tag: tag['name'], resp.json()))
 
     @staticmethod
     def _get_available_datasets(tag):
-        resp = Datasets._get(url='%s/contents' % Datasets.API_URL,
-                             params={'ref': tag})
+        """Get a list of the available datasets for the provided tag."""
+        resp = Datasets._get(url='%s/contents' % Datasets.API_URL, params={'ref': tag})
 
         datasets = {}
 
@@ -45,6 +50,7 @@ class Datasets:
 
     @staticmethod
     def _parse_cobalt_json(json_string):
+        """Convert Cobalt JSON to a Python dictionary."""
         docs = []
 
         for doc in json_string.strip().split('\n'):
@@ -57,6 +63,7 @@ class Datasets:
 
     @staticmethod
     def _prepare_response(resp, is_error=False):
+        """Prepare a Response for an error if is_error or the dataset docs."""
         data = err = None
 
         if is_error and resp is not None:
@@ -72,10 +79,11 @@ class Datasets:
         elif resp:
             data = resp
 
-        return Response(body=data, error=err)
+        return Response(content=data, error=err)
 
     @staticmethod
     def run(tag='latest', datasets='*'):
+        """Return a Response with a list of datasets for the provided tag."""
         tag = None if tag is None else tag.lower()
 
         if not tag or tag == 'latest':

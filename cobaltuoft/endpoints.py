@@ -12,6 +12,10 @@ class Endpoints:
 
     @staticmethod
     def _process_filter(queries, filter_keys=None):
+        """Form a Cobalt-filter string with the queries list and filter_keys.
+        Outer lists are joined by "AND" and inner lists are joined by "OR".
+        """
+
         if (type(queries) == str):
             return queries
 
@@ -27,10 +31,9 @@ class Endpoints:
 
     @staticmethod
     def _parse_endpoint(endpoint='list'):
-        if not endpoint or endpoint in ('list', 'show'):
-            return ''
-
-        return endpoint if endpoint in ('search', 'filter') else ''
+        return '' if (not endpoint or
+                      endpoint in ('list', 'show') or
+                      endpoint not in ('search', 'filter')) else endpoint
 
     @staticmethod
     def _parse_url(api, endpoint, params):
@@ -42,7 +45,7 @@ class Endpoints:
         keys = map(lambda p: p.lower(), params.keys())
 
         if endpoint == '' and any(k in ('date', 'id') for k in keys):
-            url += params['id'] if 'id' in params else params['date']
+            url += put_value(params, 'id', params['date'])
 
         return url
 

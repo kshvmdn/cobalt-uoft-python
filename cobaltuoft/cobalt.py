@@ -6,6 +6,8 @@ from .response import Response
 
 
 class Cobalt:
+    """A class for requesting data from the Cobalt web API."""
+
     def __init__(self, api_key=None):
         self.host = 'http://cobalt.qas.im/api/1.0'
 
@@ -19,15 +21,19 @@ class Cobalt:
 
         self.filter_keys = get_filter_keys()
 
+    def _is_valid_key(self):
+        """Determine if the provided API key is valid."""
+        r = self._get(self.host)
+
+        # Invalid keys throw a 400 with a different message
+        return r.reason == 'Not Found' and r.status_code == 404
+
     def _get(self, url, params=None, headers=None):
         headers = headers or self.headers
         return get(url=url, params=params, headers=headers)
 
-    def _is_valid_key(self):
-        r = self._get(self.host)
-        return r.reason == 'Not Found' and r.status_code == 404
-
     def _run(self, api, endpoint=None, params=None):
+        """Make a request to the API and parse the response body/error."""
         resp = Endpoints.run(api=api,
                              endpoint=endpoint,
                              params=params,
@@ -47,7 +53,7 @@ class Cobalt:
         elif resp:
             data, url = resp.json(), resp.url
 
-        return Response(body=data, url=url, error=err)
+        return Response(content=data, url=url, error=err)
 
     def athletics(self, endpoint=None, params=None):
         return self._run(api='athletics', endpoint=endpoint, params=params)

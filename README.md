@@ -26,16 +26,16 @@ pip3 install cobaltuoft
 - Directly interface with [Cobalt](http://cobalt.qas.im) APIs. Data is returned as a native Python object.
 
 - Initialize the class (an API key is required, get one [here](https://cobalt.qas.im/signup)).
-  
+
   ```py
   >>> from cobaltuoft import Cobalt
-  >>> cobalt = Cobalt('API_KEY')
+  >>> cobalt = Cobalt(api_key='API_KEY')
   ```
 
 - Each [active API](https://cobalt.qas.im/#apis) can be accessed through a method of the same name. See examples [below](#api-method-examples). These methods have two optional parameters.
 
   - `endpoint` –  The endpoint to be accessed for the respective API. Any of the following values are accepted (for most of the APIs at least, refer to the docs for exceptions):
-    
+
     - [`list`](https://cobalt.qas.im/documentation/courses/list) (default)
     - [`show`](https://cobalt.qas.im/documentation/courses/show)
     - [`search`](https://cobalt.qas.im/documentation/courses/search)
@@ -48,14 +48,14 @@ pip3 install cobaltuoft
     | `limit`     | All except `show`    | The number of results to return.
     | `skip`      | All except `show`    | The number of results to skip.
     | `sort`      | All except `show`    | The sorting procedure to be used on the returned list.
-    | `q`         | `search` or `filter` | The search or filter string. For filter queries, refer to [this](#filter-queries).  
+    | `q`         | `search` or `filter` | The search or filter string. For filter queries, refer to [this](#filter-queries).
     | `id`/`date` | `show`               | The `:id` or `:date` value.
 
 - <a name="filter-queries"/>Filter Queries</a>
   - The `q` value for `params` can either be a [Cobalt-filter string](https://cobalt.qas.im/documentation/courses/filter) or a nested list of key-value pairs.
   - Outer lists are joined by `"AND"` and inner lists are joined by `"OR"`. Use a `tuple` for the key-value pair.
   - You can use [`Cobalt._process_filter`](cobaltuoft/endpoints/__init__.py#L14) to test your filters.
-  
+
     > `'instructor:"D Liu" AND level:<=200'`
 
     ```python
@@ -64,7 +64,7 @@ pip3 install cobaltuoft
     ...     [('level', '<=200')]
     ... ]
     ```
-  
+
     > `'breadth:!2 OR code:"CSC"'`
 
     ```python
@@ -72,9 +72,9 @@ pip3 install cobaltuoft
     ...    [('breadth', '!2'), ('code', '"CSC"')]
     ... ]
     ```
-    
+
     > `instructor:"D Liu" AND level:<=200 AND 'breadth:!2 OR code:"CSC"'`
-    
+
     ```python
     >>> [
     ...     [('instructor', '"D Liu"')],
@@ -84,7 +84,7 @@ pip3 install cobaltuoft
     ```
 
 - <a name="api-method-examples"/>Examples</a>
-   
+
   > `/courses?skip=10`
 
   ```python
@@ -100,7 +100,7 @@ pip3 install cobaltuoft
   ```
 
   > `/food/search?q="pizza"&limit=2`
-    
+
   ```python
   >>> cobalt.food(endpoint='search', params={
   ...     'q': '"pizza"',
@@ -108,7 +108,7 @@ pip3 install cobaltuoft
   ... })
   [{...}]
   ```
-  
+
   > `/textbooks/filter?price:>=500 OR author="Queen"`
 
   ```python
