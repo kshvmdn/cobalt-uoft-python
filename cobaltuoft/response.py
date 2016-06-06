@@ -5,7 +5,7 @@ class Response:
     """A class for API responses, with attributes for content and error."""
 
     def __init__(self, content=None, error=None, url=None):
-        self.content, self.url = content, url
+        self.data, self.url = content, url
         self._set_error(error)
 
     def _set_error(self, error):
