@@ -73,6 +73,8 @@
         ...     [('breadth', '!2'), ('code', '"CSC"')]
         ... ]
         ```
+  
+  - [Examples](EXAMPLES.md#cobaltuoftcobalt)
 
 ---
 
@@ -88,6 +90,8 @@
     | ---        | ---           | ---
     | `tag`      | `str`         | The [release tag](https://api.github.com/repos/cobalt-uoft/datasets/tags) to request data for. Defaults to `'latest'`.
     | `datasets` | `str|[str]`   | The [datasets](https://api.github.com/repos/cobalt-uoft/datasets/contents?ref={TAG}) to return. Accepts a list of datasets, `'*'` for all, or a single dataset.
+  
+  - [Examples](EXAMPLES.md#cobaltuoftdatasets)
 
 ---
 
@@ -100,3 +104,5 @@
   | `data`     | `dict|[dict]|None`   | The response body.
   | `error`    | `dict|None`          | The error message and status code.
   | `url`      | `str`                | The request URL with query parameters.
+
+  - [Examples](EXAMPLES.md)
