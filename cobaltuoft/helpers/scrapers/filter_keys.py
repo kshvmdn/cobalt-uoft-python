@@ -7,7 +7,7 @@ BASE_URL = 'https://cobalt.qas.im/documentation/%s/filter'
 
 
 def scrape(api_endpoint):
-    """Scrape filter keys from the Cobalt documentation of api_endpoint.""""
+    """Scrape filter keys from the Cobalt documentation of api_endpoint."""
 
     host = BASE_URL % api_endpoint
     resp = requests.get(host)
