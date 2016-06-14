@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='cobaltuoft',
-    version='0.1.0',
+    version='0.1.1',
     description='A Python Cobalt library.',
     long_description='A Python wrapper for interfacing with Cobalt, open data APIs and datasets for the University of Toronto.',
     url='https://github.com/kshvmdn/cobalt-uoft-python',
