@@ -1,0 +1,422 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Cobalt UofT (Python) by kshvmdn</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Cobalt UofT (Python)</h1>
+        <p>A Python wrapper for the Cobalt API.</p>
+
+        <p class="view"><a href="https://github.com/kshvmdn/cobalt-uoft-python">View the Project on GitHub <small>kshvmdn/cobalt-uoft-python</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/kshvmdn/cobalt-uoft-python/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/kshvmdn/cobalt-uoft-python/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/kshvmdn/cobalt-uoft-python">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h2>
+<a id="cobaltuoft-" class="anchor" href="#cobaltuoft-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>cobaltuoft <a href="https://badge.fury.io/py/cobaltuoft"><img src="https://badge.fury.io/py/cobaltuoft.svg" alt="PyPI version"></a>
+</h2>
+
+<p>A Python wrapper for interfacing with <a href="http://github.com/cobalt-uoft">Cobalt</a>, open data <a href="http://cobalt.qas.im">APIs</a> and <a href="http://github.com/cobalt-uoft/datasets">datasets</a> for the University of Toronto.</p>
+
+<h3>
+<a id="documentation" class="anchor" href="#documentation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Documentation</h3>
+
+<ul>
+<li><a href="#getting-started">Getting started</a></li>
+<li><a href="#usage">Usage</a></li>
+<li><a href="#examples">Examples</a></li>
+<li><a href="#contribute">Contribute</a></li>
+</ul>
+
+<hr>
+
+<h3>
+<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Getting started</h3>
+
+<h4>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h4>
+
+<ol>
+<li>
+<p>Install through <code>pip</code></p>
+
+<pre><code>pip install cobaltuoft
+</code></pre>
+</li>
+<li>
+<p>Install via source</p>
+
+<div class="highlight highlight-source-shell"><pre>$ git clone https://github.com/kshvmdn/cobalt-uoft-python.git
+<span class="pl-c"># Or download from here - https://github.com/kshvmdn/cobalt-uoft-python/archive/master.zip</span>
+$ <span class="pl-c1">cd</span> cobalt-uoft-python <span class="pl-k">&amp;&amp;</span> pip install -r ./requirements.txt</pre></div>
+</li>
+</ol>
+
+<hr>
+
+<h3>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h3>
+
+<h4>
+<a id="classes" class="anchor" href="#classes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Classes</h4>
+
+<ul>
+<li>
+<p>Request objects</p>
+
+<ul>
+<li><a href="#cobaltuoftcobalt">Cobalt</a></li>
+<li><a href="#cobaltuoftdatasets">Datasets</a></li>
+</ul>
+</li>
+<li>
+<p>Response objects</p>
+
+<ul>
+<li><a href="#cobaltuoftresponseresponse">Response</a></li>
+</ul>
+</li>
+</ul>
+
+<h4>
+<a id="api" class="anchor" href="#api" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>API</h4>
+
+<h5>
+<a id="cobaltuoftcobalt" class="anchor" href="#cobaltuoftcobalt" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><code>cobaltuoft.Cobalt</code>
+</h5>
+
+<ul>
+<li><p>Directly interface with <a href="http://cobalt.qas.im">Cobalt</a> APIs. Data is returned as a <a href="#cobaltuoftresponseresponse"><code>Response</code></a> object.</p></li>
+<li>
+<p>Initialize the class (a Cobalt API key is required, get one <a href="https://cobalt.qas.im/signup">here</a>).</p>
+
+<div class="highlight highlight-source-python"><pre><span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> <span class="pl-k">from</span> cobaltuoft <span class="pl-k">import</span> Cobalt
+<span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> cobalt <span class="pl-k">=</span> Cobalt(<span class="pl-v">api_key</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">'</span>API_KEY<span class="pl-pds">'</span></span>)</pre></div>
+</li>
+<li>
+<p>Each <a href="https://cobalt.qas.im/#apis">active API</a> can be accessed through a method of the same name. These methods have two optional parameters:</p>
+
+<ul>
+<li>
+<p><code>endpoint</code> –  The endpoint to be accessed for the respective API. Any of the following values are accepted (for most of the APIs, refer to the docs for exceptions):</p>
+
+<ul>
+<li>
+<a href="https://cobalt.qas.im/documentation/courses/list"><code>list</code></a> (default)</li>
+<li><a href="https://cobalt.qas.im/documentation/courses/show"><code>show</code></a></li>
+<li><a href="https://cobalt.qas.im/documentation/courses/search"><code>search</code></a></li>
+<li><a href="https://cobalt.qas.im/documentation/courses/filter"><code>filter</code></a></li>
+</ul>
+</li>
+<li>
+<p><code>params</code> – The URL parameters for this query. Accepts a <code>dict</code> of key-value pairs. Any of the following keys are accepted (read more about these parameters <a href="https://cobalt.qas.im/documentation/courses/search">here</a>):</p>
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Endpoints</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>limit</code></td>
+<td>All except <code>show</code>
+</td>
+<td>The number of results to return.</td>
+</tr>
+<tr>
+<td><code>skip</code></td>
+<td>All except <code>show</code>
+</td>
+<td>The number of results to skip.</td>
+</tr>
+<tr>
+<td><code>sort</code></td>
+<td>All except <code>show</code>
+</td>
+<td>The sorting procedure to be used on the returned list.</td>
+</tr>
+<tr>
+<td><code>q</code></td>
+<td>
+<code>search</code> or <code>filter</code>
+</td>
+<td>The search or filter query. For filter queries, refer to <a href="#filter-queries">this</a>.</td>
+</tr>
+<tr>
+<td>
+<code>id</code>/<code>date</code>
+</td>
+<td><code>show</code></td>
+<td>The <code>:id</code> or <code>:date</code> value.</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</li>
+<li>
+<p><a name="filter-queries"></a>Filter Queries</p>
+
+<ul>
+<li>When using <code>filter</code>, the <code>q</code> parameter can either be a <a href="https://cobalt.qas.im/documentation/courses/filter">Cobalt-filter string</a> or a nested list of key-value pairs.</li>
+<li>Outer lists are joined by <code>"AND"</code> and inner lists are joined by <code>"OR"</code>. Use a <code>tuple</code> for the key-value pair.</li>
+<li>You can use <a href="cobaltuoft/endpoints/__init__.py#L14"><code>Cobalt._process_filter</code></a> to test your filters.</li>
+<li>
+<p>Here are some examples:</p>
+
+<ul>
+<li>
+<p><code>'instructor:"D Liu" AND level:&lt;=200'</code></p>
+
+<div class="highlight highlight-source-python"><pre><span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> [
+<span class="pl-c1">...</span>     [(<span class="pl-s"><span class="pl-pds">'</span>instructor<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>"D Liu"<span class="pl-pds">'</span></span>)],
+<span class="pl-c1">...</span>     [(<span class="pl-s"><span class="pl-pds">'</span>level<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>&lt;=200<span class="pl-pds">'</span></span>)]
+<span class="pl-c1">...</span> ]</pre></div>
+</li>
+<li>
+<p><code>'breadth:!2 OR code:"CSC"'</code></p>
+
+<div class="highlight highlight-source-python"><pre><span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> [
+<span class="pl-c1">...</span>    [(<span class="pl-s"><span class="pl-pds">'</span>breadth<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>!2<span class="pl-pds">'</span></span>), (<span class="pl-s"><span class="pl-pds">'</span>code<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>"CSC"<span class="pl-pds">'</span></span>)]
+<span class="pl-c1">...</span> ]</pre></div>
+</li>
+<li>
+<p><code>instructor:"D Liu" AND level:&lt;=200 AND 'breadth:!2 OR code:"CSC"'</code></p>
+
+<div class="highlight highlight-source-python"><pre><span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> [
+<span class="pl-c1">...</span>     [(<span class="pl-s"><span class="pl-pds">'</span>instructor<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>"D Liu"<span class="pl-pds">'</span></span>)],
+<span class="pl-c1">...</span>     [(<span class="pl-s"><span class="pl-pds">'</span>level<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>&lt;=200<span class="pl-pds">'</span></span>)],
+<span class="pl-c1">...</span>     [(<span class="pl-s"><span class="pl-pds">'</span>breadth<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>!2<span class="pl-pds">'</span></span>), (<span class="pl-s"><span class="pl-pds">'</span>code<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>"CSC"<span class="pl-pds">'</span></span>)]
+<span class="pl-c1">...</span> ]</pre></div>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<h5>
+<a id="cobaltuoftdatasets" class="anchor" href="#cobaltuoftdatasets" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><code>cobaltuoft.Datasets</code>
+</h5>
+
+<ul>
+<li><p>Interface with full <a href="https://github.com/cobalt-uoft/datasets">Cobalt datasets</a>. Data is returned as a <a href="#cobaltuoftresponseresponse"><code>Response</code></a> object.</p></li>
+<li><p>This class doesn't need to be instantiated, instead call it's methods directly.</p></li>
+<li>
+<p><code>Datasets.run()</code></p>
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tag</code></td>
+<td><code>str</code></td>
+<td>The <a href="https://api.github.com/repos/cobalt-uoft/datasets/tags">release tag</a> to request data for. Defaults to <code>'latest'</code>.</td>
+</tr>
+<tr>
+<td><code>datasets</code></td>
+<td><code>str|[str]</code></td>
+<td>The <a href="https://api.github.com/repos/cobalt-uoft/datasets/contents?ref=%7BTAG%7D">datasets</a> to return. Accepts a list of datasets, <code>'*'</code> for all, or a single dataset.</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p><a href="./examples">Examples</a></p></li>
+</ul>
+
+<h5>
+<a id="cobaltuoftresponseresponse" class="anchor" href="#cobaltuoftresponseresponse" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><code>cobaltuoft.response.Response</code>
+</h5>
+
+<ul>
+<li>
+<p>The response object for each of the request modules.</p>
+
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>data</code></td>
+<td><code>dict|[dict]|None</code></td>
+<td>The response body.</td>
+</tr>
+<tr>
+<td><code>error</code></td>
+<td><code>dict|None</code></td>
+<td>The error message and status code.</td>
+</tr>
+<tr>
+<td><code>url</code></td>
+<td><code>str</code></td>
+<td>The request URL with query parameters.</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+
+<hr>
+
+<h3>
+<a id="examples" class="anchor" href="#examples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Examples</h3>
+
+<ul>
+<li>More detailed examples can be found <a href="./examples">here</a>.</li>
+</ul>
+
+<h4>
+<a id="cobaltuoftcobalt-1" class="anchor" href="#cobaltuoftcobalt-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><code>cobaltuoft.Cobalt</code>
+</h4>
+
+<div class="highlight highlight-source-python"><pre><span class="pl-k">from</span> cobaltuoft <span class="pl-k">import</span> Cobalt
+cobalt <span class="pl-k">=</span> Cobalt(<span class="pl-v">api_key</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">'</span>API_KEY<span class="pl-pds">'</span></span>)</pre></div>
+
+<div class="highlight highlight-source-python"><pre><span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> courses <span class="pl-k">=</span> cobalt.courses(<span class="pl-v">params</span><span class="pl-k">=</span>{<span class="pl-s"><span class="pl-pds">'</span>skip<span class="pl-pds">'</span></span>: <span class="pl-c1">10</span>})
+<span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> courses
+<span class="pl-k">&lt;</span><span class="pl-k">class</span> <span class="pl-s"><span class="pl-pds">'</span>cobaltuoft.response.Response<span class="pl-pds">'</span></span><span class="pl-k">&gt;</span>
+<span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> courses.error
+<span class="pl-c1">None</span>
+<span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> courses.data
+[<span class="pl-c1">...</span>, {<span class="pl-c1">...</span>}]
+<span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> courses.url
+<span class="pl-s"><span class="pl-pds">'</span>http://cobalt.qas.im/api/1.0/courses?skip=10&amp;key={KEY}<span class="pl-pds">'</span></span></pre></div>
+
+<div class="highlight highlight-source-python"><pre><span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> building_134 <span class="pl-k">=</span> cobalt.buildings(<span class="pl-v">endpoint</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">'</span>search<span class="pl-pds">'</span></span>, <span class="pl-v">params</span><span class="pl-k">=</span>{<span class="pl-s"><span class="pl-pds">'</span>id<span class="pl-pds">'</span></span>: <span class="pl-c1">134</span>})
+<span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> building_134.error
+<span class="pl-c1">None</span>
+<span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> building_134.data
+{<span class="pl-c1">...</span>} <span class="pl-c"># not a list!</span>
+<span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> building_134.url
+<span class="pl-s"><span class="pl-pds">'</span>http://cobalt.qas.im/api/1.0/buildings/134?key={KEY}<span class="pl-pds">'</span></span>
+<span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> building_1738 <span class="pl-k">=</span> cobalt.buildings(<span class="pl-v">endpoint</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">'</span>search<span class="pl-pds">'</span></span>, <span class="pl-v">params</span><span class="pl-k">=</span>{<span class="pl-s"><span class="pl-pds">'</span>id<span class="pl-pds">'</span></span>: <span class="pl-c1">1738</span>})
+<span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> building_1738.error
+{
+    <span class="pl-s"><span class="pl-pds">'</span>status_code<span class="pl-pds">'</span></span>: <span class="pl-c1">400</span>, 
+    <span class="pl-s"><span class="pl-pds">'</span>message<span class="pl-pds">'</span></span>: <span class="pl-s"><span class="pl-pds">'</span>A building with the specified identifier does not exist.<span class="pl-pds">'</span></span>
+}
+<span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> building_1738.data
+<span class="pl-c1">None</span>
+<span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> building_1738.url
+<span class="pl-s"><span class="pl-pds">'</span>http://cobalt.qas.im/api/1.0/buildings/1738?key={KEY}<span class="pl-pds">'</span></span></pre></div>
+
+<div class="highlight highlight-source-python"><pre><span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> food <span class="pl-k">=</span> cobalt.food(<span class="pl-v">endpoint</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">'</span>search<span class="pl-pds">'</span></span>, <span class="pl-v">params</span><span class="pl-k">=</span>{
+<span class="pl-c1">...</span>     <span class="pl-s"><span class="pl-pds">'</span>q<span class="pl-pds">'</span></span>: <span class="pl-s"><span class="pl-pds">'</span>"pizza"<span class="pl-pds">'</span></span>,
+<span class="pl-c1">...</span>     <span class="pl-s"><span class="pl-pds">'</span>limit<span class="pl-pds">'</span></span>: <span class="pl-c1">2</span>
+<span class="pl-c1">...</span> })
+<span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> food.error
+<span class="pl-c1">None</span>
+<span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> food.data
+[{<span class="pl-c1">...</span>}, {<span class="pl-c1">...</span>}]
+<span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> food.url
+<span class="pl-s"><span class="pl-pds">'</span>http://cobalt.qas.im/api/1.0/food/search?q="pizza"&amp;limit=2&amp;key={KEY}<span class="pl-pds">'</span></span></pre></div>
+
+<div class="highlight highlight-source-python"><pre><span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> textbooks <span class="pl-k">=</span> cobalt.textbooks(<span class="pl-v">endpoint</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">'</span>filter<span class="pl-pds">'</span></span>, <span class="pl-v">params</span><span class="pl-k">=</span>{
+<span class="pl-c1">...</span>     <span class="pl-s"><span class="pl-pds">'</span>q<span class="pl-pds">'</span></span>: [
+<span class="pl-c1">...</span>         [
+<span class="pl-c1">...</span>             (<span class="pl-s"><span class="pl-pds">'</span>price<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>&gt;=500<span class="pl-pds">'</span></span>),
+<span class="pl-c1">...</span>             (<span class="pl-s"><span class="pl-pds">'</span>author<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>"Queen"<span class="pl-pds">'</span></span>)
+<span class="pl-c1">...</span>         ]
+<span class="pl-c1">...</span>     ] <span class="pl-c"># equivalent to 'q': 'price:&gt;=500 OR author:"Queen"'</span>
+<span class="pl-c1">...</span> })
+<span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> textbooks.error
+<span class="pl-c1">None</span>
+<span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> textbooks.data
+[<span class="pl-c1">...</span>, {<span class="pl-c1">...</span>}]
+<span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> textbooks.url
+<span class="pl-s"><span class="pl-pds">'</span>http://cobalt.qas.im/api/1.0/textbooks/filter?q=price:&gt;=500 OR author="Queen"&amp;key={KEY}<span class="pl-pds">'</span></span></pre></div>
+
+<hr>
+
+<h4>
+<a id="cobaltuoftdatasets-1" class="anchor" href="#cobaltuoftdatasets-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><code>cobaltuoft.Datasets</code>
+</h4>
+
+<div class="highlight highlight-source-python"><pre><span class="pl-k">from</span> cobaltuoft <span class="pl-k">import</span> Datasets</pre></div>
+
+<div class="highlight highlight-source-python"><pre><span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> latest_datasets <span class="pl-k">=</span> Datasets.run(<span class="pl-v">tag</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">'</span>latest<span class="pl-pds">'</span></span>, <span class="pl-v">datasets</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">'</span>*<span class="pl-pds">'</span></span>)
+<span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> latest_datasets.error
+<span class="pl-c1">None</span> <span class="pl-c"># the GitHub API only allows 60 requests per hour, this will be non-None after you hit that limit.</span>
+<span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> latest_datasets.data
+{
+    <span class="pl-c1">...</span>,
+    <span class="pl-s"><span class="pl-pds">'</span>courses<span class="pl-pds">'</span></span>: [<span class="pl-c1">...</span>, {<span class="pl-c1">...</span>}], 
+    <span class="pl-s"><span class="pl-pds">'</span>athletics<span class="pl-pds">'</span></span>: [<span class="pl-c1">...</span>, {<span class="pl-c1">...</span>}]
+} </pre></div>
+
+<div class="highlight highlight-source-python"><pre><span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> courses_2015 <span class="pl-k">=</span> Datasets.run(<span class="pl-v">tag</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">'</span>2015-2016<span class="pl-pds">'</span></span>, <span class="pl-v">datasets</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">'</span>courses<span class="pl-pds">'</span></span>)
+<span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> courses_2015.data
+{
+    <span class="pl-s"><span class="pl-pds">'</span>courses<span class="pl-pds">'</span></span>: [<span class="pl-c1">...</span>, {<span class="pl-c1">...</span>}]
+}
+<span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> courses_2015.url
+<span class="pl-c1">None</span> <span class="pl-c"># Datasets responses don't have a `url` attribute!</span></pre></div>
+
+<div class="highlight highlight-source-python"><pre><span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> datasets <span class="pl-k">=</span> Datasets.run(<span class="pl-v">datasets</span><span class="pl-k">=</span>[<span class="pl-s"><span class="pl-pds">'</span>athletics<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>shuttles<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>parking<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>libraries<span class="pl-pds">'</span></span>])
+<span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> <span class="pl-k">import</span> json
+<span class="pl-k">&gt;&gt;</span><span class="pl-k">&gt;</span> <span class="pl-k">with</span> <span class="pl-c1">open</span>(<span class="pl-s"><span class="pl-pds">'</span>datasets.json<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>w<span class="pl-pds">'</span></span>) <span class="pl-k">as</span> f:
+<span class="pl-c1">...</span>     f.write(json.dumps(datasets.data, <span class="pl-v">indent</span><span class="pl-k">=</span><span class="pl-c1">2</span>))
+<span class="pl-c"># https://gist.github.com/kshvmdn/6103bab0ff86fbc904b27c8072a32a2b</span></pre></div>
+
+<hr>
+
+<h3>
+<a id="contribute" class="anchor" href="#contribute" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contribute</h3>
+
+<p>This project is completely open source. Feel free to open an <a href="https://github.com/kshvmdn/cobalt-uoft-python/issues">issue</a> for questions/requests or submit a <a href="https://github.com/kshvmdn/cobalt-uoft-python/pulls">pull request</a>.</p>
+
+<h4>
+<a id="development" class="anchor" href="#development" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Development</h4>
+
+<ul>
+<li>
+<p>Clone the project.</p>
+
+<div class="highlight highlight-source-shell"><pre>git clone https://github.com/kshvmdn/cobalt-uoft-python.git <span class="pl-k">&amp;&amp;</span> <span class="pl-c1">cd</span> cobalt-uoft-python</pre></div>
+</li>
+<li>
+<p>Install requirements.</p>
+
+<div class="highlight highlight-source-shell"><pre>pip install -r ./requirements.txt</pre></div>
+</li>
+</ul>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/kshvmdn">kshvmdn</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
