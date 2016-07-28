@@ -9,6 +9,7 @@ from os.path import exists, isfile, realpath, dirname
 from .scrapers import *
 
 DATA_DIR = dirname(realpath(__file__)) + '/../data/'
+DATA_EXPIRY = 10 # days
 
 
 def get(url, params=None, headers=None, verbose=False):
@@ -31,8 +32,8 @@ def validate_request_response(resp):
              resp.status_code != 200))
 
 
-def put_value(dict, key, fallback):
-    return dict[key] if key in dict else fallback
+def put_value(obj, key, fallback):
+    return obj[key] if key in obj else fallback
 
 
 def deep_convert_dict(obj):
@@ -64,21 +65,21 @@ def verify_dir_exists(directory):
 def get_active_apis():
     """Return the list of active APIs if they exist and are less than 5 days
     old, otherwise rescrape them."""
-
-    file = DATA_DIR + '/active_apis.json'
-
+    
     if not verify_dir_exists(DATA_DIR):
         return []
 
-    if isfile(file):
-        with open(file, 'r') as f:
+    fp = DATA_DIR + '/active_apis.json'
+
+    if isfile(fp):
+        with open(fp, 'r') as f:
             doc = json.loads(f.read())
 
         write_date = datetime.strptime(doc['meta']['date'],
                                        '%Y-%m-%d %H:%M:%S')
 
-        # Rescrape if previous data is more than 5 days old
-        if (datetime.now() - write_date).seconds <= 432000:
+        # Rescrape if previous data is _expired_
+        if (datetime.now() - write_date).seconds <= 60 * 60 * 24 * DATA_EXPIRY:
             return doc['apis']
 
     doc = {
@@ -88,7 +89,7 @@ def get_active_apis():
         }
     }
 
-    with open(file, 'w') as f:
+    with open(fp, 'w') as f:
         f.write(json.dumps(doc, indent=2))
 
     return doc['apis']
@@ -97,14 +98,14 @@ def get_active_apis():
 def get_filter_keys():
     """Return the list of filter keys if they exist and are less than 5 days
     old, otherwise rescrape them."""
-
-    file = DATA_DIR + '/filter_keys.json'
-
+    
     if not verify_dir_exists(DATA_DIR):
         return []
 
-    if isfile(file):
-        with open(file, 'r') as f:
+    fp = DATA_DIR + '/filter_keys.json'
+
+    if isfile(fp):
+        with open(fp, 'r') as f:
             doc = json.loads(f.read())
 
         write_date = datetime.strptime(doc['meta']['date'],
@@ -121,7 +122,7 @@ def get_filter_keys():
         }
     }
 
-    with open(file, 'w') as f:
+    with open(fp, 'w') as f:
         f.write(json.dumps(doc, indent=2))
 
     return doc['filters']
