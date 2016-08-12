@@ -15,17 +15,16 @@ A Python wrapper for interfacing with [Cobalt](http://github.com/cobalt-uoft), o
 
 #### Installation
 
-1. Install through `pip`
+1. Install through `pip`.
 
   ```
   pip install cobaltuoft
   ```
 
-2. Install via source
+2. Install via source (download from [here](https://github.com/kshvmdn/cobalt-uoft-python/archive/master.zip)).
 
   ```sh
   $ git clone https://github.com/kshvmdn/cobalt-uoft-python.git
-  # Or download from here - https://github.com/kshvmdn/cobalt-uoft-python/archive/master.zip
   $ cd cobalt-uoft-python && pip install -r ./requirements.txt
   ```
 
