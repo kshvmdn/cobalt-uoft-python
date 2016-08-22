@@ -1,4 +1,4 @@
-## cobaltuoft [![PyPI version](https://badge.fury.io/py/cobaltuoft.svg)](https://badge.fury.io/py/cobaltuoft)
+## cobaltuoft [![PyPI version](https://badge.fury.io/py/cobaltuoft.svg)](https://badge.fury.io/py/cobaltuoft) [![Build Status](https://travis-ci.org/kshvmdn/cobalt-uoft-python.svg?branch=master)](https://travis-ci.org/kshvmdn/cobalt-uoft-python)
 
 A Python wrapper for interfacing with [Cobalt](http://github.com/cobalt-uoft), open data [APIs](http://cobalt.qas.im) and [datasets](http://github.com/cobalt-uoft/datasets) for the University of Toronto.
 
